@@ -1,0 +1,17 @@
+# GetCameraFrame.srv
+# Returns latest camera frame as JPEG for debugging/visualization
+
+# Request
+int32 quality 80  # JPEG quality 1-100 (default 80)
+---
+# Response
+bool success
+string error
+
+# Frame metadata
+uint32 width
+uint32 height
+builtin_interfaces/Time timestamp
+
+# JPEG-encoded frame data
+uint8[] jpeg_data

@@ -1,0 +1,15 @@
+# Thor Perception Pipeline Parameters
+# Historical parameter fragment. Merge into a deployment-specific parameter file
+# or adapt identity_pipeline.launch.py before use.
+#
+# NOTE: rtsp_uri defaults are overridden by CAMERA_IP env var in the nodes.
+# Set CAMERA_IP in .env or pass camera_ip:=<IP> to the launch file.
+
+# Perception State Server
+perception_state_server:
+  ros__parameters:
+    # Camera Intrinsics (for bearing computation)
+    # Precedence: if camera_fx_pixels > 0, use it; else compute from hfov
+    camera_fx_pixels: 0.0         # Calibrated focal length (0 = use HFOV estimate)
+    camera_cx_pixels: 0.0         # Calibrated principal point (0 = use frame_width/2)
+    camera_hfov_deg: 65.0         # Horizontal FOV, typical webcam (~65°)

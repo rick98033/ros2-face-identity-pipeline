@@ -1,0 +1,17 @@
+# InferFaceId.srv
+# On-demand face identification service.
+#
+# Called by IdentityEvidenceNode when face evidence is needed.
+# Uses AuraFace to generate embedding and compare against enrolled faces.
+
+# Request
+string turn_id
+uint64 track_id
+string crop_path                 # Path: /tmp/thor_face_crops/<track_id>_<ts>.jpg
+uint32 deadline_ms               # Fail fast if <=0 or not enough time
+---
+# Response
+bool success
+string error                     # Error message if not success
+thor_msgs/FaceIdentityCandidate candidate
+uint32 inference_ms

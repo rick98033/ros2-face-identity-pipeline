@@ -1,0 +1,15 @@
+# Request snapshot of current face tracks
+# Service: /perception/faces/get_snapshot
+# HTTP: /api/v1/faces/snapshot
+
+float32 max_age_sec       # Window size (clamped to server retention_sec)
+bool latest_only          # If true, return only latest frame
+bool quality_gated        # If true, only return faces with quality_ok=true
+uint32 max_tracks         # Limit response size (0 = no limit)
+---
+bool success
+string error
+builtin_interfaces/Time timestamp    # Server time of snapshot
+thor_msgs/FaceTrack[] faces          # Current face tracks
+uint32 total_frames_in_window        # Frames aggregated
+float32 window_used_sec              # Actual window used

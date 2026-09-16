@@ -1,0 +1,15 @@
+# CancelFollow.srv
+# Service to cancel active follow authorization
+#
+# Called by orchestrator when user says "Stop following" or session ends
+# Transitions: AUTHORIZED -> UNAUTHORIZED, ACQUIRING -> UNAUTHORIZED, SUSPENDED -> UNAUTHORIZED
+
+# Request
+string session_id                    # Session ID for tracing
+string turn_id                       # Turn ID for tracing
+---
+# Response
+bool success                         # True if cancellation processed
+string error_code                    # OK, NOT_AUTHORIZED (was already UNAUTHORIZED)
+uint64 previous_track_id             # Track that was authorized (0 if none)
+string previous_user_id              # User that was authorized (empty if none)

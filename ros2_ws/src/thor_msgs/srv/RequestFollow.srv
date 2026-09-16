@@ -1,0 +1,30 @@
+# RequestFollow.srv
+# Service to initiate follow-me authorization
+#
+# Called by orchestrator when user says "Follow me"
+#
+# BLOCKING SEMANTICS: Service blocks until AUTHORIZED or error (up to timeout_ms).
+# Caller does not need to poll /world/authorized_target.
+#
+# ACQUISITION RULE (2-of-N):
+# - Requires 2 consistent face matches within acquisition window
+# - Each match must have: score >= threshold, margin >= threshold, quality_ok
+# - Face must be time-coherent with person track (within tolerance)
+
+# Request
+string session_id                    # Session ID for tracing
+string turn_id                       # Turn ID for tracing
+uint32 timeout_ms                    # Max wait for acquisition (default 5000ms)
+---
+# Response
+bool success                         # True if AUTHORIZED
+string error_code                    # OK, NO_FACE, NO_MATCH, TIMEOUT, AMBIGUOUS, AMBIGUOUS_USERS
+
+# Result on success
+uint64 authorized_track_id           # Person track bound to authorization
+string authorized_user_id            # Enrolled user ID that matched
+float32 confidence                   # Initial confidence (typically 0.9)
+
+# Diagnostics
+uint32 latency_ms                    # Time from request to response
+string reason                        # Human-readable explanation

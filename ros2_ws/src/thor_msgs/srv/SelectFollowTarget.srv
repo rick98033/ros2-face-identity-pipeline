@@ -1,0 +1,9 @@
+# Request - select a person to follow using strategy
+string strategy          # "nearest_center", "most_confident", "largest", "by_track_id"
+uint64 track_id          # Required if strategy="by_track_id"
+---
+# Response
+bool success
+string error             # "NO_PEOPLE_DETECTED", "TRACK_NOT_FOUND", etc.
+uint64 selected_track_id         # The chosen target (0 if none)
+thor_msgs/PersonState target     # Full state of selected person (empty if success=false)

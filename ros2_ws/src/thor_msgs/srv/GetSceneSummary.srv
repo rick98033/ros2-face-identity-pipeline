@@ -1,0 +1,32 @@
+# Request
+float32 window_sec      # Time window to summarize (clamped to server retention_sec)
+---
+# Response
+bool success
+string error
+builtin_interfaces/Time timestamp
+float32 window_used_sec          # Actual window used
+
+# Scene state
+uint32 people_count              # Distinct people in window
+uint32 total_detections          # Total detection events
+float32 avg_confidence           # Mean confidence across detections
+float32 scene_stability          # 0-1, how stable is the scene
+
+# Primary target (best candidate for follow)
+uint64 primary_track_id          # 0 if no people
+float32 primary_quality          # Composite score (confidence * presence * stability)
+float32 primary_stability_score  # So MCP can say "tracking is unstable"
+uint32 primary_last_seen_ms      # Staleness indicator
+
+# Track list
+uint64[] track_ids               # All track IDs seen
+
+# Pipeline health (from /perception/metrics)
+float32 fps
+float32 latency_p95_ms
+uint8 health                     # PerceptionMetrics.OK/DEGRADED/ERROR
+string reason_code               # Empty if OK
+
+# Parseable summary (fixed format, bounded length)
+string text_summary              # "people=N; primary=track_X; stability=HIGH|MED|LOW; fps=N; latency_p95=Nms; health=OK"
